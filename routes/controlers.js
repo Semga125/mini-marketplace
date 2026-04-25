@@ -10,7 +10,14 @@ const postUser = async (req, res) => {
     const { login, password } = req.body;
 
     const hashedPassword = await bcrypt.hash(password, 10);
+const [existing] = await db.query(
+  "SELECT * FROM peoples68 WHERE login = ?",
+  [login]
+);
 
+if (existing.length) {
+  return res.status(400).json({ message: "User already exists" });
+}
     const [result] = await db.query(
       "INSERT INTO peoples68 (login,password) VALUES (?,?)",
       [login, hashedPassword]
@@ -32,8 +39,43 @@ const postUser = async (req, res) => {
     res.status(500).send("Error");
   }
 };
+const loginUser = async (req, res) => {
+  try {
+    const { login, password } = req.body;
+
+    if (!login || !password) {
+      return res.status(400).json({ message: "Missing login or password" });
+    }
+
+    const [rows] = await db.query(
+      "SELECT * FROM peoples68 WHERE login = ?",
+      [login]
+    );
+
+    if (!rows.length) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const user = rows[0];
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    res.json({
+      message: "successfully"
+    });
+
+  } catch (err) {
+    res.status(500).send("Error");
+  }
+};
+
 
 module.exports = {
-  postUser
+  postUser,
+  loginUser
   
 };
