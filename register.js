@@ -9,7 +9,7 @@ submit.addEventListener("click", async (event) => {
         const password = input2.value;
 
         if (username.length <= 3 || password.length <= 3) {
-            throw new Error("Enter all fields");
+            throw new Error("Username and password must be longer than 3 characters");
         }
 
         const res = await fetch("http://localhost:10000/users/register", {
