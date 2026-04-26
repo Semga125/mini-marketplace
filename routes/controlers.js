@@ -1,7 +1,21 @@
 const db = require("../db.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
+function generateTokens(user) {
+  const accessToken = jwt.sign(
+    { id: user.id, login: user.login },
+    process.env.ACCESS_SECRET,
+    { expiresIn: "15m" }
+  );
 
+  const refreshToken = jwt.sign(
+    { id: user.id },
+    process.env.REFRESH_SECRET,
+    { expiresIn: "7d" }
+  );
+
+  return { accessToken, refreshToken };
+}
 
 const postUser = async (req, res) => {
   try {
@@ -25,21 +39,28 @@ if (existing.length) {
 
     console.log(" User inserted with ID:", result.insertId);
 
-    const user = {
-      id: result.insertId,
-      login
-    };
+ const user = {
+  id: result.insertId,
+  login
+};
+// 
+const { accessToken, refreshToken } = generateTokens(user);
 
-    res.json({
-      message: "succefully"
-    });
+    
+res.cookie("refreshToken", refreshToken, {
+  httpOnly: true,
+  secure: false,
+  sameSite: "strict"
+});
 
+res.json({
+  accessToken
+});
   } catch (err) {
     console.error(" postUser error:", err.message);
     res.status(500).send("Error");
   }
-};
-const loginUser = async (req, res) => {
+};const loginUser = async (req, res) => {
   try {
     const { login, password } = req.body;
 
@@ -64,18 +85,46 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    //
+    const { accessToken, refreshToken } = generateTokens(user);
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "strict"
+    });
+
     res.json({
-      message: "successfully"
+      accessToken
     });
 
   } catch (err) {
     res.status(500).send("Error");
   }
 };
+const refreshTokenHandler = (req, res) => {
+  const token = req.cookies.refreshToken;
 
+  if (!token) return res.sendStatus(401);
 
+  try {
+    const decoded = jwt.verify(token, process.env.REFRESH_SECRET);
+
+    const newAccessToken = jwt.sign(
+      { id: decoded.id },
+      process.env.ACCESS_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    res.json({ accessToken: newAccessToken });
+
+  } catch {
+    return res.sendStatus(403);
+  }
+};
 module.exports = {
   postUser,
-  loginUser
+  loginUser,
+  refreshTokenHandler
   
 };

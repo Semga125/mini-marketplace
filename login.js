@@ -1,3 +1,6 @@
+if (localStorage.getItem("accessToken")) {
+  window.location.href = "home.html";
+}
 const login = document.querySelector("#login5")
 const password = document.querySelector("#password5")
 const submit = document.querySelector("#submit-login")
@@ -10,6 +13,7 @@ submit.addEventListener("click", async (e) => {
       headers: {
         "Content-Type": "application/json"
       },
+      credentials: "include",
       body: JSON.stringify({
         login: login.value,
         password: password.value
@@ -21,12 +25,11 @@ submit.addEventListener("click", async (e) => {
       throw new Error(err);
     }
 
-    const data = await res.json();
-    console.log(data);
+ const data = await res.json();
 
+localStorage.setItem("accessToken", data.accessToken);
 
-    window.location.href = "home.html";
-
+window.location.href = "home.html";
   } catch (err) {
     console.error("Login error:", err.message);
   }

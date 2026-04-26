@@ -1,0 +1,49 @@
+async function checkAuth() {
+  let token = localStorage.getItem("accessToken");
+
+
+  if (!token) {
+    return window.location.href = "login.html";
+  }
+
+
+  let res = await fetch("http://localhost:10000/users/me", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if (!res.ok) {
+    const refresh = await fetch("http://localhost:10000/users/refresh", {
+      method: "GET",
+      credentials: "include"
+    });
+
+
+    if (!refresh.ok) {
+      localStorage.removeItem("accessToken");
+      return window.location.href = "login.html";
+    }
+
+
+    const data = await refresh.json();
+    localStorage.setItem("accessToken", data.accessToken);
+
+
+    res = await fetch("http://localhost:10000/users/me", {
+      headers: {
+        Authorization: `Bearer ${data.accessToken}`
+      }
+    });
+
+    if (!res.ok) {
+      localStorage.removeItem("accessToken");
+      return window.location.href = "login.html";
+    }
+  }
+
+  const user = await res.json();
+  console.log("USER:", user);
+}
+
+checkAuth();

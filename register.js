@@ -1,3 +1,6 @@
+if (localStorage.getItem("accessToken")) {
+  window.location.href = "home.html";
+}
 const input1 = document.querySelector("#username1");
 const input2 = document.querySelector("#password1");
 const submit = document.querySelector("#submit-register");
@@ -16,7 +19,7 @@ submit.addEventListener("click", async (event) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
-      },
+      },credentials: "include",
       body: JSON.stringify({
         login: username,
         password: password
@@ -27,11 +30,11 @@ submit.addEventListener("click", async (event) => {
       const errorText = await res.text();
       throw new Error(errorText);
     }
+const data = await res.json();
 
-    const data = await res.json();
-    console.log("Server response:", data);
+localStorage.setItem("accessToken", data.accessToken);
 
-    window.location.href = "home.html";
+window.location.href = "home.html";
 
   } catch (err) {
     console.error("Register error:", err.message);

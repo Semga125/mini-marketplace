@@ -10,5 +10,12 @@
     <h2>Login or Register ?</h2>
     <a href="register.html"><h3>Register</h3></a>
     <a href="login.html"><h3>Log In</h3></a>
+
+    <script>
+
+        if (localStorage.getItem("accessToken")) {
+            window.location.href = "home.html";
+        }
+    </script>
 </body>
 </html>
