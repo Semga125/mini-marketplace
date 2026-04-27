@@ -47,3 +47,6 @@ async function checkAuth() {
 }
 
 checkAuth();
+document.getElementById("account-button").addEventListener("click", () => {
+    window.location.href = "account.html"; 
+});
