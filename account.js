@@ -1,6 +1,4 @@
-let currentUser = null;
-
-async function checkAuth() {
+async function loadProfile() {
   let token = localStorage.getItem("accessToken");
 
   if (!token) {
@@ -13,7 +11,7 @@ async function checkAuth() {
     }
   });
 
-  // якщо токен помер → рефреш
+  // якщо токен не валідний → пробуємо refresh
   if (!res.ok) {
     const refresh = await fetch("http://localhost:10000/users/refresh", {
       method: "GET",
@@ -41,21 +39,20 @@ async function checkAuth() {
   }
 
   const data = await res.json();
-  currentUser = data.user;
 
-  console.log("USER:", currentUser);
+  // 🔥 ВИВОДИМО ДАНІ
+  document.getElementById("user-id").innerText =
+    "ID: " + data.user.id;
+
+  document.getElementById("user-login").innerText =
+    "Login: " + data.user.login;
 }
 
-checkAuth();
+loadProfile();
 
 
-// 🔥 КНОПКА АКАУНТА
-document.addEventListener("DOMContentLoaded", () => {
-  const btn = document.getElementById("account-button");
-
-  if (btn) {
-    btn.addEventListener("click", () => {
-      window.location.href = "account.html";
-    });
-  }
+// 🔥 LOGOUT
+document.getElementById("logout-btn").addEventListener("click", () => {
+  localStorage.removeItem("accessToken");
+  window.location.href = "register.html";
 });
