@@ -13,7 +13,7 @@ async function checkAuth() {
     }
   });
 
-  // якщо токен помер → рефреш
+
   if (!res.ok) {
     const refresh = await fetch("http://localhost:10000/users/refresh", {
       method: "GET",
@@ -49,7 +49,7 @@ async function checkAuth() {
 checkAuth();
 
 
-// 🔥 КНОПКА АКАУНТА
+
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("account-button");
 
