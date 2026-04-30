@@ -71,8 +71,9 @@ posts.forEach(post => {
     const div = document.createElement("div");
 
     div.innerHTML = `
-      <h3>${post.title}</h3>
-      <p>${post.description}</p>
+     <h3>${post.title}</h3>
+<p>${post.description}</p>
+<h4>${post.price} $</h4>
       <hr>
     `;
 

@@ -127,16 +127,17 @@ const refreshTokenHandler = (req, res) => {
 
 const createPost = async (req,res) => {
   try {
-    const {title,description} = req.body
+  const { title, description, price } = req.body;
+
+if (!title || !description || !price) {
+  return res.status(400).send("Missing fields");
+}
     const userId = req.user.id
 
     
-if (!title || !description) {
-  return res.status(400).send("Missing fields");
-}
     await db.query(
-      "INSERT INTO posts (user_id, title, description) VALUES (?, ?, ?)",
-      [userId, title, description]
+      "INSERT INTO posts (user_id, title, description, price) VALUES (?, ?, ?, ?)",
+[userId, title, description, price]
     );
     console.log("CREATE POST:", req.body, req.user);
   res.json({ message: "Post created" });
