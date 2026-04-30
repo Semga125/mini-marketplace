@@ -11,7 +11,7 @@ async function loadProfile() {
     }
   });
 
-  // якщо токен не валідний → пробуємо refresh
+
   if (!res.ok) {
     const refresh = await fetch("http://localhost:10000/users/refresh", {
       method: "GET",
@@ -40,7 +40,7 @@ async function loadProfile() {
 
   const data = await res.json();
 
-  // 🔥 ВИВОДИМО ДАНІ
+  
   document.getElementById("user-id").innerText =
     "ID: " + data.user.id;
 
@@ -51,7 +51,7 @@ async function loadProfile() {
 loadProfile();
 
 
-// 🔥 LOGOUT
+
 document.getElementById("logout-btn").addEventListener("click", () => {
   localStorage.removeItem("accessToken");
   window.location.href = "register.html";
