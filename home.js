@@ -59,3 +59,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+
+async function loadPosts() {
+   const res = await fetch("http://localhost:10000/users/posts");
+  const posts = await res.json();
+    const container = document.getElementById("posts");
+      container.innerHTML = "";
+posts.forEach(post => {
+    const div = document.createElement("div");
+
+    div.innerHTML = `
+      <h3>${post.title}</h3>
+      <p>${post.description}</p>
+      <hr>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
+loadPosts();

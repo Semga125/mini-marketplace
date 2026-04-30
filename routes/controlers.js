@@ -122,9 +122,46 @@ const refreshTokenHandler = (req, res) => {
     return res.sendStatus(403);
   }
 };
+
+
+
+const createPost = async (req,res) => {
+  try {
+    const {title,description} = req.body
+    const userId = req.user.id
+
+    
+if (!title || !description) {
+  return res.status(400).send("Missing fields");
+}
+    await db.query(
+      "INSERT INTO posts (user_id, title, description) VALUES (?, ?, ?)",
+      [userId, title, description]
+    );
+    console.log("CREATE POST:", req.body, req.user);
+  res.json({ message: "Post created" });
+  }
+  catch {
+  console.error(err);
+  return res.status(500).send("ERROR");
+  }
+}
+
+const getPosts = async (req, res) => {
+  try {
+    const [rows] = await db.query("SELECT * FROM posts ORDER BY id DESC");
+    res.json(rows);
+  } catch (err) {
+    res.status(500).send("Error");
+  }
+};
+
+
+
+
 module.exports = {
   postUser,
   loginUser,
-  refreshTokenHandler
+  refreshTokenHandler,createPost,getPosts
   
 };
