@@ -4,17 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
+<body class="register-body">
+  <div class="auth-container">
     <h1>Mini Marketplace</h1>
     <h2>Registration</h2>
-    <h2>Username</h2>
-    <input type="text" id="username1"/>
-    <h2>Password</h2>
-    <input type="password" id="password1"/>
-    <p></p>
 
-    <button type="button" id="submit-register" style="width: 100px; height: 50px;">Register</button>
-    <script src="register.js"></script>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="username1"/>
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="password1"/>
+    </div>
+
+    <button id="submit-register">Register</button>
+  </div>
+
+  <script src="register.js"></script>
+</body>
 </body>
 </html>

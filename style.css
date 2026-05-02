@@ -1,10 +1,10 @@
-body {
+/*.register-body {
     background: #0f1115;
     color: white;
     min-height: 100vh; 
     margin: 0;
     font-family: Arial, sans-serif;
-}
+}*/
 
 .global {
     display: flex;
@@ -132,4 +132,86 @@ body {
 #posts div:hover {
   transform: scale(1.03);
   background: #22242a;
+}
+
+.div-choise {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;    
+    height: 100vh;
+    text-align: center;
+}
+.index-body {
+    background-image: url('gradient-purple-color-background-modern-wave-abstract-designs_343694-2361.avif');
+    background-size: cover;        
+    background-position: center;   
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+.register-body {
+     background-image: url('gradient-purple-color-background-modern-wave-abstract-designs_343694-2361.avif');
+    background-size: cover;        
+    background-position: center;   
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+.register-body {
+    background-image: url('gradient-purple-color-background-modern-wave-abstract-designs_343694-2361.avif');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+
+.auth-container {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 15px;
+    width: 300px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+
+#submit-register {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: #a855f7;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#submit-register:hover {
+    background: #9333ea;
 }
