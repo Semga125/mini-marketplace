@@ -62,23 +62,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-async function loadPosts() {
-   const res = await fetch("http://localhost:10000/users/posts");
+async function loadPosts(search = "") {
+  const res = await fetch(
+    `http://localhost:10000/users/posts?search=${search}`
+  );
+
   const posts = await res.json();
-    const container = document.getElementById("posts");
-      container.innerHTML = "";
-posts.forEach(post => {
+
+  const container = document.getElementById("posts");
+  container.innerHTML = "";
+if (posts.length === 0) {
+  container.innerHTML = "<h3>Нічого не знайдено</h3>";
+  return;
+}
+  posts.forEach(post => {
     const div = document.createElement("div");
 
     div.innerHTML = `
-     <h3>${post.title}</h3>
-<p>${post.description}</p>
-<h4>${post.price} $</h4>
+      <h3>${post.title}</h3>
+      <p>${post.description}</p>
+      <h4>${post.price || ""} $</h4>
       <hr>
     `;
 
     container.appendChild(div);
   });
-}
+} 
 
 loadPosts();
+
+
+const input = document.getElementById("search");
+
+input.addEventListener("input", () => {
+  loadPosts(input.value);
+});
+document.querySelector("#watch").addEventListener("click", () => {
+  const phones = document.querySelector("#phones");
+
+  const current = getComputedStyle(phones).display;
+
+  if (current === "none") {
+    phones.style.display = "block";
+  } else {
+    phones.style.display = "none";
+  }
+});

@@ -13,9 +13,9 @@
     
     <div class="search-row">
         <h3>Search🔍...</h3>
-        <input class="icvvW" placeholder="Я шукаю..." autocomplete="off" 
+        <input class="icvvW" placeholder="Я шукаю..." id="search" autocomplete="off" 
         autocorrect="off" autocapitalize="none" maxlength="1024" 
-        type="search" value="" name="search_term">
+        type="search" value="" name="search_term" >
     </div>
   
 
@@ -45,11 +45,15 @@
 </button>
 
 <div class="catalog">
-     <h1 class="h11">ТОП-Телефони</h1>
+  <button id="watch" >Дивитись топ ТОП-Телефони</button>
+   
       <p></p>
       <p></p>
+      <div class="phones" id="phones">
+          <h1 class="h11">ТОП-Телефони</h1>
       <h2 style="text-align: center">Apple</h2>
-      <div class="apple">
+
+      <div class="apple" id="apple">
         <div class="iphone16">
           <img
             src="https://estore.ua/ua/media/catalog/product/cache/9/image/650x650/9df78eab33525d08d6e5fb8d27136e95/i/p/iphone-16_1__2.jpeg"
@@ -87,7 +91,7 @@
       <p></p>
       <p></p>
       <h2 style="text-align: center; margin-top: 75px">Samsung</h2>
-      <div class="Samsung">
+      <div class="Samsung" id="samsung">
         <p></p>
         <div class="SamsungS25">
           <img
@@ -126,7 +130,7 @@
       <h2 style="text-align: center; margin-top: 75px; margin-bottom: 50px">
         Xiaomi Redmi
       </h2>
-      <div class="Redmi">
+      <div class="Redmi" id="redmi">
         <div class="Note14">
           <img
             src="https://content2.rozetka.com.ua/goods/images/big/505427757.jpg"
@@ -160,6 +164,7 @@
           <h3><s>350$</s></h3>
           <h4 class="red">300$</h4>
         </div>
+      </div>
       </div>
        <div id="posts"></div>
 </div>

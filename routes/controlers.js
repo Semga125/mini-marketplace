@@ -129,7 +129,7 @@ const createPost = async (req,res) => {
   try {
   const { title, description, price } = req.body;
 
-if (!title || !description || !price) {
+if (!title || !description || price === undefined)  {
   return res.status(400).send("Missing fields");
 }
     const userId = req.user.id
@@ -142,22 +142,33 @@ if (!title || !description || !price) {
     console.log("CREATE POST:", req.body, req.user);
   res.json({ message: "Post created" });
   }
-  catch {
+ catch (err) {
   console.error(err);
   return res.status(500).send("ERROR");
-  }
+}
 }
 
 const getPosts = async (req, res) => {
   try {
-    const [rows] = await db.query("SELECT * FROM posts ORDER BY id DESC");
+    const search = req.query.search;
+
+    let query = "SELECT * FROM posts";
+    let params = [];
+
+    if (search) {
+      query += " WHERE title LIKE ?";
+      params.push(`%${search}%`);
+    }
+
+    query += " ORDER BY id DESC";
+
+    const [rows] = await db.query(query, params);
+
     res.json(rows);
   } catch (err) {
     res.status(500).send("Error");
   }
 };
-
-
 
 
 module.exports = {

@@ -93,7 +93,9 @@ body {
     margin: 20px 0 15px 0;
 }
 
-
+.phones {
+    display: none;
+}
 
 .apple, .Samsung, .Redmi {
     display: flex;
